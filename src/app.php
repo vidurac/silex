@@ -33,6 +33,16 @@ $app->register(new Silex\Provider\AssetServiceProvider(), array(
     ),
 ));
 
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+    'db.options' => array(
+        'driver' => 'pdo_mysql',
+        'dbhost' => 'localhost',
+        'dbname' => 'silex_db',
+        'user' => 'root',
+        'password' => '123@',
+    ),
+));
+
 $app['twig'] = $app->extend('twig', function ($twig, $app) {
     // add custom globals, filters, tags, ...
 

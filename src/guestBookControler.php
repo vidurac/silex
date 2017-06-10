@@ -70,8 +70,33 @@ $app->post('/', function () use ($app) {
     return $resp->getHostName();
 });
 
+$app->post('/addGuests', function (Request $request) use ($app) {
 
+    $app['db']->insert('guest_book', array(
+            'name' => $request->get('name'),
+            'address' => $request->get('address'),
+            'email' => $request->get('email'),
+            'message' => $request->get('message'),
+            'browser' => addslashes($_SERVER['HTTP_USER_AGENT']),
+            'platform' => '',
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+        )
+    );
+    return $request;
+    /*$sql = "SELECT * FROM guest_book ";
+    $post = $app['db']->fetchAssoc($sql);
 
+    return  "<h1>{$post['name']}</h1>".
+    "<p>{$post['email']}</p>";*/
+});
+
+$app->get('/getGuests', function () use ($app) {
+    $sql = "SELECT * FROM guest_book ";
+    $post = $app['db']->fetchAssoc($sql);
+
+    return  "<h1>{$post['name']}</h1>".
+    "<p>{$post['email']}</p>";
+});
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
