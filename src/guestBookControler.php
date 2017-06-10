@@ -32,7 +32,7 @@ $app->get('/', function (Request $request) use ($app) {
             'choices' => array('free' => 1, 'small business' => 2, 'corporate' => 3),
             'expanded' => true,
         ))*/
-        ->add('submit', SubmitType::class, [
+        ->add('button', SubmitType::class, [
             'label' => 'Save',
         ])
         ->getForm();

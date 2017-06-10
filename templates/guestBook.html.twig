@@ -8,11 +8,14 @@
 {% endblock %}#}
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
+<script src='{{ asset('/components/jquery/dist/jquery.min.js', 'js') }}'></script>
+<script src='{{ asset('/js/guestBook.js', 'js') }}'></script>
 
-<form action="#" method="post">
+
+<form action="" id="form">
     {{ form_widget(form) }}
 
-    {#<input type="submit" name="submit" value="Submit" />#}
+
 
     <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
 </form>
