@@ -23,7 +23,8 @@
         "symfony/twig-bridge": "^3.3",
         "symfony/validator": "^3.3",
         "google/recaptcha": "^1.1",
-        "doctrine/dbal": "~2.2"
+        "doctrine/dbal": "~2.2",
+        "sinergi/browser-detector": "^6.1"
     },
     "autoload": {
         "psr-0": { "": "src/" }

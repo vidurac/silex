@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Sinergi\BrowserDetector\Browser;
+use Sinergi\BrowserDetector\Os;
+
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->get('/', function (Request $request) use ($app) {
@@ -72,13 +75,17 @@ $app->post('/', function () use ($app) {
 
 $app->post('/addGuests', function (Request $request) use ($app) {
 
+    $browser = new Browser();
+    $os = new Os();
+
     $app['db']->insert('guest_book', array(
             'name' => $request->get('name'),
             'address' => $request->get('address'),
             'email' => $request->get('email'),
             'message' => $request->get('message'),
-            'browser' => addslashes($_SERVER['HTTP_USER_AGENT']),
-            'platform' => '',
+            'browser' => $browser->getName(),
+            'browser_version' => $browser->getVersion(),
+            'platform' => $os->getName(),
             'ip_address' => $_SERVER['REMOTE_ADDR'],
         )
     );
