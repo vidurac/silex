@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use Sinergi\BrowserDetector\Browser;
 use Sinergi\BrowserDetector\Os;
+use Symfony\Component\Console\Helper\Table;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
@@ -50,6 +51,8 @@ $app->get('/', function (Request $request) use ($app) {
         // redirect somewhere
         //return $app->redirect('...');
     }
+
+
 
     // display the form
     return $app['twig']->render('guestBook.html.twig', array('form' => $form->createView()));
@@ -89,20 +92,14 @@ $app->post('/addGuests', function (Request $request) use ($app) {
             'ip_address' => $_SERVER['REMOTE_ADDR'],
         )
     );
-    return $request;
-    /*$sql = "SELECT * FROM guest_book ";
-    $post = $app['db']->fetchAssoc($sql);
-
-    return  "<h1>{$post['name']}</h1>".
-    "<p>{$post['email']}</p>";*/
+    return $app->json(array('success' => true, 'error' => false));
 });
 
 $app->get('/getGuests', function () use ($app) {
     $sql = "SELECT * FROM guest_book ";
-    $post = $app['db']->fetchAssoc($sql);
+    $post = $app['db']->fetchAll($sql);
 
-    return  "<h1>{$post['name']}</h1>".
-    "<p>{$post['email']}</p>";
+    return  $app->json($post);
 });
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
