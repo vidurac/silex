@@ -22,7 +22,12 @@ $( document ).ready(function() {
                 if(data.success)
                 {
                     alert("Saved");
+
+                    //clear the form
                     $(obj).closest('form').find("input[type=text], textarea").val("");
+
+                    //reloading saved item table
+                    loadSavedItems(true);
                 }
             },
             error: function (request, status, error) {
@@ -31,18 +36,20 @@ $( document ).ready(function() {
         });
     });
 
+    //loading saved item table
+    loadSavedItems(false);
+});
 
-
-
-
+function loadSavedItems(reload)
+{
     $.ajax({
         type: 'GET',
         url: '/index_dev.php/getGuests',
         data: {},
         success: function(data) {
 
+            //preparing data for data table
             var temp = [];
-
             for(var x = 0; x < data.length; x++)
             {
                 var row = [
@@ -58,11 +65,15 @@ $( document ).ready(function() {
                 ];
                 temp.push(row);
             }
-            /*var dataSet = [
-                [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
-                [ "Prescott Bartlett", "Technical Author", "London", "3606", "2011/05/07", "$145,000" ],
-            ];*/
 
+            if(reload)
+            {
+                //distroy the data table
+                var table = $('#example').DataTable();
+                table.destroy();
+            }
+
+            //create data table
             $('#example').DataTable( {
                 data: temp,
                 columns: [
@@ -82,6 +93,4 @@ $( document ).ready(function() {
             alert(request.responseText);
         }
     });
-
-
-});
+}
