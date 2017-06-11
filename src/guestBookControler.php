@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -29,6 +30,9 @@ $app->get('/', function (Request $request) use ($app) {
 
     $form = $app['form.factory']->createBuilder(FormType::class, $data)
         ->add('name')
+        /*->add('name', TextType::class, [
+            'attr'=> array('class'=>'form-group')
+        ])*/
         ->add('address')
         ->add('email')
         ->add('message')
@@ -38,6 +42,7 @@ $app->get('/', function (Request $request) use ($app) {
         ))*/
         ->add('button', SubmitType::class, [
             'label' => 'Save',
+            'attr'=> array('class'=>'btn btn-info')
         ])
         ->getForm();
 

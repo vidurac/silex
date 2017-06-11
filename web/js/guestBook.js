@@ -5,12 +5,19 @@
 
 $( document ).ready(function() {
     $('#form').submit(function(e) {
-
         e.preventDefault();
+
+        var captcha = $('[name=g-recaptcha-response]').val();
+        if(captcha == "")
+        {
+            alert("please tick captcha");
+            return false;
+        }
+
         var obj = this;
         $.ajax({
             type: 'POST',
-            url: '/index_dev.php/addGuests',
+            url: '/index.php/addGuests',
             data: {
                 'name': $('#form_name').val(),
                 'address': $('#form_address').val(),
@@ -44,7 +51,7 @@ function loadSavedItems(reload)
 {
     $.ajax({
         type: 'GET',
-        url: '/index_dev.php/getGuests',
+        url: '/index.php/getGuests',
         data: {},
         success: function(data) {
 

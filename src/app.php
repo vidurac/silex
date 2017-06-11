@@ -28,7 +28,7 @@ $app->register(new Silex\Provider\AssetServiceProvider(), array(
     'assets.version' => 'v1',
     'assets.version_format' => '%s?version=%s',
     'assets.named_packages' => array(
-        //'css' => array('version' => 'css2', 'base_path' => '/whatever-makes-sense'),
+        'css' => array('version' => 'css2', 'base_path' => 'http://localhost:8888'),
         'js' => array('base_urls' => array('http://localhost:8888')),
     ),
 ));

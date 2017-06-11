@@ -1,22 +1,69 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
-<script src='{{ asset('/components/jquery/dist/jquery.min.js', 'js') }}'></script>
+<script src='{{ asset('/assets/vendor/jquery/dist/jquery.min.js', 'js') }}'></script>
 
 {#<script src='{{ asset('/assets/vendor/jquery/dist/jquery.min.js', 'js') }}'></script>#}
 <script src='{{ asset('/js/guestBook.js', 'js') }}'></script>
 
-<script src='{{ asset('/components/datatables.net/js/jquery.dataTables.min.js', 'js') }}'></script>
-<link rel="stylesheet" type="text/css" href="/components/datatables.net-dt/css/jquery.dataTables.min.css">
+<script src='{{ asset('/assets/vendor/bootstrap/dist/js/bootstrap.min.js', 'js') }}'></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('/assets/vendor/bootstrap/dist/css/bootstrap.min.css', 'css') }}">
 
-<form action="" id="form">
-    {{ form_widget(form) }}
+<script src='{{ asset('/assets/vendor/datatables.net/js/jquery.dataTables.min.js', 'js') }}'></script>
+<link rel="stylesheet" type="text/css" href="{{ asset('/assets/vendor/datatables.net-dt/css/jquery.dataTables.min.css', 'css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ asset('/css/main.css', 'css') }}">
+
+<div class="container">
+    <div class="row">
+        <form action="" id="form" class="form-horizontal">
+            {#{{ form_widget(form) }}#}
+
+            <div class="form-group">
+                <label class="control-label col-sm-1" >Name:</label>
+                <div class="col-sm-10">
+                    {{ form_widget(form.name) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-1" >Address:</label>
+                <div class="col-sm-10">
+                    {{ form_widget(form.address) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-1" >Email:</label>
+                <div class="col-sm-10">
+                    {{ form_widget(form.email) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-1" >Message:</label>
+                <div class="col-sm-10">
+                    {{ form_widget(form.message) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-1 g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-1 col-sm-10">
+                    {{ form_widget(form.button) }}
+                </div>
+            </div>
+        </form>
+
+        <table id="example" class="display table table-bordered" width="100%"></table>
+    </div>
+
+</div>
 
 
 
-    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-</form>
 
 
-
-<table id="example" class="display" width="100%"></table>
 
 
