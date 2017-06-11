@@ -88,10 +88,10 @@ function loadSavedItems(reload)
                     { title: "Name" },
                     { title: "Address" },
                     { title: "Email" },
-                    { title: "Message." },
-                    { title: "browser" },
-                    { title: "version" },
-                    { title: "platform" },
+                    { title: "Message" },
+                    { title: "Browser" },
+                    { title: "Version" },
+                    { title: "Platform" },
                     { title: "IP" }
                 ]
             } );
