@@ -17,6 +17,8 @@ use Sinergi\BrowserDetector\Browser;
 use Sinergi\BrowserDetector\Os;
 use Symfony\Component\Console\Helper\Table;
 
+require_once __DIR__.'/models/guest.php';
+
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->get('/', function (Request $request) use ($app) {
@@ -30,16 +32,9 @@ $app->get('/', function (Request $request) use ($app) {
 
     $form = $app['form.factory']->createBuilder(FormType::class, $data)
         ->add('name')
-        /*->add('name', TextType::class, [
-            'attr'=> array('class'=>'form-group')
-        ])*/
         ->add('address')
         ->add('email')
         ->add('message')
-        /*->add('billing_plan', ChoiceType::class, array(
-            'choices' => array('free' => 1, 'small business' => 2, 'corporate' => 3),
-            'expanded' => true,
-        ))*/
         ->add('button', SubmitType::class, [
             'label' => 'Save',
             'attr'=> array('class'=>'btn btn-info')
@@ -47,17 +42,6 @@ $app->get('/', function (Request $request) use ($app) {
         ->getForm();
 
     $form->handleRequest($request);
-
-    if ($form->isValid()) {
-        $data = $form->getData();
-
-        // do something with the data
-
-        // redirect somewhere
-        //return $app->redirect('...');
-    }
-
-
 
     // display the form
     return $app['twig']->render('guestBook.html.twig', array('form' => $form->createView()));
@@ -86,25 +70,32 @@ $app->post('/addGuests', function (Request $request) use ($app) {
     $browser = new Browser();
     $os = new Os();
 
-    $app['db']->insert('guest_book', array(
-            'name' => $request->get('name'),
-            'address' => $request->get('address'),
-            'email' => $request->get('email'),
-            'message' => $request->get('message'),
-            'browser' => $browser->getName(),
-            'browser_version' => $browser->getVersion(),
-            'platform' => $os->getName(),
-            'ip_address' => $_SERVER['REMOTE_ADDR'],
-        )
-    );
-    return $app->json(array('success' => true, 'error' => false));
+    //instantiate guest model
+    $guest = new guest();
+    $data = array(
+                'name' => $request->get('name'),
+                'address' => $request->get('address'),
+                'email' => $request->get('email'),
+                'message' => $request->get('message'),
+                'browser' => $browser->getName(),
+                'browser_version' => $browser->getVersion(),
+                'platform' => $os->getName(),
+                'ip_address' => $_SERVER['REMOTE_ADDR'],
+            );
+    //save data
+    $save = $guest->save($app,$data);
+    if($save)
+    {
+        return $app->json(array('success' => true, 'error' => false));
+    }
 });
 
 $app->get('/getGuests', function () use ($app) {
-    $sql = "SELECT * FROM guest_book ";
-    $post = $app['db']->fetchAll($sql);
 
-    return  $app->json($post);
+    //instantiate guest model
+    $guest = new guest();
+
+    return $guest->getAllGuests($app);
 });
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
